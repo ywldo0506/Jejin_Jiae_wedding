@@ -521,10 +521,26 @@ section.visible{opacity:1;transform:translateY(0);}
 }
 .cal-d.empty{color:transparent;}
 .cal-d.today{
-  background:var(--gold);color:var(--navy);
-  border-radius:50%;width:26px;height:26px;
+  position:relative;
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto;font-weight:500;font-size:12px;
+  margin:0 auto;
+  width:36px;height:36px;
+}
+.cal-d.today .today-num{
+  position:relative;z-index:2;
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;color:var(--navy);font-weight:600;
+  line-height:1;
+  margin-top:2px;
+}
+.cal-d.today::before{
+  content:'♥';
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:34px;
+  color:var(--gold);
+  line-height:1;
+  z-index:1;
 }
 .cer-info{text-align:center;position:relative;}
 .cer-datetime{
@@ -1892,7 +1908,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
       <div class="cal-h">수</div><div class="cal-h">목</div><div class="cal-h">금</div><div class="cal-h">토</div>
       <div class="cal-d empty"></div><div class="cal-d empty"></div><div class="cal-d empty"></div>
       <div class="cal-d empty"></div><div class="cal-d empty"></div><div class="cal-d empty"></div>
-      <div class="cal-d"><div class="today">1</div></div>
+      <div class="cal-d"><div class="today"><span class="today-num">1</span></div></div>
       <div class="cal-d">2</div><div class="cal-d">3</div><div class="cal-d">4</div>
       <div class="cal-d">5</div><div class="cal-d">6</div><div class="cal-d">7</div><div class="cal-d">8</div>
     </div>
