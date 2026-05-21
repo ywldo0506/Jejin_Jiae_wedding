@@ -520,24 +520,24 @@ section.visible{opacity:1;transform:translateY(0);}
   padding:5px 0;
 }
 .cal-d.empty{color:transparent;}
-.cal-d.today{
+.cal-d.today{padding:0;}
+div.today{
   position:relative;
   display:flex;align-items:center;justify-content:center;
   margin:0 auto;
   width:36px;height:36px;
 }
-.cal-d.today .today-num{
+div.today .today-num{
   position:relative;z-index:2;
   font-family:'Cormorant Garamond',serif;
-  font-size:13px;color:var(--navy);font-weight:600;
+  font-size:12px;color:var(--navy);font-weight:700;
   line-height:1;
-  margin-top:2px;
 }
-.cal-d.today::before{
+div.today::before{
   content:'♥';
   position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  font-size:34px;
+  transform:translate(-50%,-52%);
+  font-size:36px;
   color:var(--gold);
   line-height:1;
   z-index:1;
