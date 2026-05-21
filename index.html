@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;background:#000;overflow:hidden;}
+html,body{width:100%;height:100%;background:#000;}body.intro-active{overflow:hidden;}
 
 /* ── 전체 레이어 ── */
 #scene{
@@ -2194,10 +2194,12 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
 </body>
 
 <script>
+document.body.classList.add('intro-active');
 var skipDone = false;
 function skipIntro(){
   if(skipDone) return;
   skipDone = true;
+  document.body.classList.remove('intro-active');
   var castle = document.getElementById('castle');
   var photoLayer = document.getElementById('photo-layer');
   var textLayer = document.getElementById('text-layer');
@@ -2369,6 +2371,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var scene = document.getElementById('scene');
       var main  = document.getElementById('main-content');
       var skipBtn = document.getElementById('skip-btn');
+      document.body.classList.remove('intro-active');
       scene.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
       scene.style.opacity = '0';
       scene.style.transform = 'translateY(-40px)';
