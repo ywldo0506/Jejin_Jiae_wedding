@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>이제진 ♥ 윤지애</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Noto+Serif+KR:wght@300;400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 html,body{width:100%;background:#000;}body{overflow-x:hidden;}
 
 /* ── 전체 레이어 ── */
@@ -40,7 +41,7 @@ html,body{width:100%;background:#000;}body{overflow-x:hidden;}
   transition:opacity 1.2s ease, filter 1.2s ease;
   pointer-events:none;
   z-index:0;
-}
+  }
 
 /* ── 불꽃놀이 ── */
 #fireworks{
@@ -116,6 +117,7 @@ html,body{width:100%;background:#000;}body{overflow-x:hidden;}
 }
 .t-date{
   font-size:18px;letter-spacing:3px;
+  font-family:'Playfair Display',serif;
   color:rgba(212,180,131,0.8);
   display:block;margin-bottom:24px;
 }
@@ -508,6 +510,7 @@ section.visible{opacity:1;transform:translateY(0);}
 }
 .cal-month{
   font-size:17px;letter-spacing:4px;
+  font-family:'Playfair Display',serif;
   color:var(--gold2);text-align:center;
   margin-bottom:16px;text-transform:uppercase;
 }
@@ -520,7 +523,7 @@ section.visible{opacity:1;transform:translateY(0);}
   color:rgba(255,255,255,0.35);padding:4px 0;
 }
 .cal-d{
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Playfair Display',serif;
   font-size:15px;color:rgba(255,255,255,0.5);
   padding:5px 0;
 }
@@ -533,15 +536,18 @@ div.today{
   width:36px;height:36px;
 }
 div.today .today-num{
-  position:relative;z-index:2;
-  font-family:'Cormorant Garamond',serif;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  font-family:'Playfair Display',serif;
   font-size:15px;color:var(--navy);font-weight:700;
   line-height:1;
 }
 div.today::before{
   content:'♥';
   position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-52%);
+  transform:translate(-50%,-50%);
   font-size:36px;
   color:var(--gold);
   line-height:1;
@@ -550,6 +556,7 @@ div.today::before{
 .cer-info{text-align:center;position:relative;}
 .cer-datetime{
   font-size:18px;color:var(--white);
+  font-family:'Playfair Display',serif;
   letter-spacing:0.5px;margin-bottom:8px;
 }
 .cer-venue{
@@ -578,7 +585,8 @@ div.today::before{
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
 .dday-num{
-  font-size:28px;font-weight:300;
+  font-size:28px;font-weight:400;
+  font-family:'Playfair Display',serif;
   color:var(--white);display:block;
   line-height:1;margin-bottom:5px;
 }
@@ -762,6 +770,7 @@ div.today::before{
 }
 .acc-number{
   font-size:15px;color:var(--navy);
+  font-family:'Playfair Display',serif;
   letter-spacing:1.5px;margin-bottom:2px;
 }
 .acc-holder{font-size:12px;color:#999;font-weight:300;}
@@ -792,6 +801,7 @@ footer{
 }
 .ft-date{
   font-size:11px;letter-spacing:4px;
+  font-family:'Playfair Display',serif;
   color:var(--gold2);text-transform:uppercase;
   margin-bottom:20px;display:block;
 }
@@ -913,7 +923,7 @@ footer{
   <canvas id="fireworks"></canvas>
   <div id="flash"></div>
 
-  <video id="intro-video" src="intro.mp4" muted playsinline preload="auto"></video>
+  <video id="intro-video" muted playsinline autoplay preload="auto" loop webkit-playsinline x5-playsinline><source src="intro.mp4" type="video/mp4"></video>
 
   
 
@@ -928,7 +938,7 @@ footer{
     <span class="t-main">Be Our Guest</span>
     <div class="t-divider"></div>
     <span class="t-names">이제진  ♥  윤지애</span>
-    <span class="t-date">2026.08.01 토요일 12시<br>CREAST 72 GLASS HALL</span>
+    <span class="t-date">2026.08.01 토요일 12시<br>CREST 72 GLASS HALL</span>
     <button class="t-btn" id="enter-btn" type="button">청첩장 보기</button>
   </div>
 </div>
@@ -1055,9 +1065,23 @@ async function runIntro(){
 
   // 1. 영상 배경 페이드인
   await delay(300);
-  castle.play().catch(function(){});
-  castle.style.transition='opacity 1.2s ease';
-  castle.style.opacity='1';
+  castle.muted = true;
+  castle.setAttribute('playsinline', '');
+  castle.setAttribute('webkit-playsinline', '');
+  var playPromise = castle.play();
+  if(playPromise !== undefined){
+    playPromise.then(function(){
+      castle.style.transition='opacity 1.2s ease';
+      castle.style.opacity='1';
+    }).catch(function(){
+      // 자동재생 실패시 바로 보이게만 처리
+      castle.style.transition='opacity 1.2s ease';
+      castle.style.opacity='1';
+    });
+  } else {
+    castle.style.transition='opacity 1.2s ease';
+    castle.style.opacity='1';
+  }
 
   // 2. 불꽃 1차
   await delay(1400);
@@ -1559,16 +1583,8 @@ c0 -11 -76 -101 -104 -123 -14 -11 -41 -26 -60 -34 -59 -25 -45 3 42 89 49 48
         <span>2026.08.01 토요일 낮 12시</span>
       </div>
       <div class="rsvp-info-row">
-        <span class="rsvp-info-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8975A" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12 C12 12 10 8 7 8 C7 8 7 11 9.5 12 C7 11 7 14 7 14 C10 14 12 12 12 12Z"/>
-            <path d="M12 12 C12 12 14 8 17 8 C17 8 17 11 14.5 12 C17 11 17 14 17 14 C14 14 12 12 12 12Z"/>
-            <path d="M12 12 C12 12 8 10 8 7 C8 7 11 7 12 9.5 C11 7 14 7 16 7 C16 10 12 12 12 12Z"/>
-            <path d="M12 12 C12 12 8 14 8 17 C8 17 11 17 12 14.5 C11 17 14 17 16 17 C16 14 12 12 12 12Z"/>
-            <circle cx="12" cy="12" r="1.5" fill="#B8975A" stroke="none"/>
-          </svg>
-        </span>
-        <span>CREAST 72 GLASS HALL</span>
+        <span class="rsvp-info-icon" style="font-size:14px;color:#B8975A;">ღ</span>
+        <span>CREST 72 GLASS HALL</span>
       </div>
     </div>
     <div class="rsvp-form">
@@ -1937,7 +1953,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
     </div>
     <div class="cer-info">
     <div class="cer-datetime">2026년 8월 1일 토요일 낮 12시</div>
-    <div class="cer-venue">CREAST 72 · GLASS HALL</div>
+    <div class="cer-venue">CREST 72 · GLASS HALL</div>
     <div class="cer-addr">서울특별시 중구 장충단로 72</div>
   </div>
 </section>
@@ -1963,6 +1979,9 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
   <div class="sec-title">우리의 이야기</div>
   <div class="gold-rule"></div>
   <div class="gallery-grid" id="galleryGrid"></div>
+  <div style="text-align:center;padding:20px 0 30px;">
+    <button id="gallery-more-btn" style="background:none;border:1px solid var(--gold);color:var(--gold);padding:10px 32px;font-size:13px;letter-spacing:2px;cursor:pointer;font-family:'Cormorant Garamond',serif;">더 보기</button>
+  </div>
 </section>
 
 <div class="sep"></div>
@@ -1995,7 +2014,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
       티맵 →
     </a>
   </div>
-  <div class="venue-name">CREAST 72 · GLASS HALL</div>
+  <div class="venue-name">CREST 72 · GLASS HALL</div>
   <div class="venue-addr">서울특별시 중구 장충단로 72</div>
   <div class="transport-list">
     <div class="transport-item">
@@ -2057,7 +2076,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
   <span class="ft-script">Jejin & Jiae</span>
   <span class="ft-date">2026 · August · 1st · Saturday</span>
   <div class="ft-div"></div>
-  <div class="ft-venue">CREAST 72 · GLASS HALL · SEOUL</div>
+  <div class="ft-venue">CREST 72 · GLASS HALL · SEOUL</div>
 </footer>
 
 
@@ -2071,12 +2090,11 @@ var skipDone = false;
 function skipIntro(){
   if(skipDone) return;
   skipDone = true;
-  var castle = document.getElementById('castle');
+  var castle = document.getElementById('intro-video');
   var photoLayer = document.getElementById('photo-layer');
   var textLayer = document.getElementById('text-layer');
   var skipBtn = document.getElementById('skip-btn');
   castle.style.transition = 'none';
-  castle.style.transform = 'translateX(-50%) translateY(0)';
   castle.style.opacity = '1';
   photoLayer.style.transition = 'opacity 0.6s';
   photoLayer.style.opacity = '1';
@@ -2169,13 +2187,34 @@ function submitRSVP(){
   var nums = [1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
   var photos = nums.map(function(n){ return String(n).padStart(2,'0') + '.jpg'; });
   var grid = document.getElementById('galleryGrid');
-  photos.forEach(function(src, idx){
-    var item = document.createElement('div');
-    item.className = 'gallery-item';
-    item.innerHTML = '<img src="' + src + '" alt="웨딩사진 ' + (idx+1) + '" loading="lazy">';
-    item.addEventListener('click', function(){ openLB(idx); });
-    grid.appendChild(item);
-  });
+  var showCount = 6;
+
+  function renderGallery(){
+    grid.innerHTML = '';
+    photos.slice(0, showCount).forEach(function(src, idx){
+      var item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = '<img src="' + src + '" alt="웨딩사진 ' + (idx+1) + '" loading="lazy">';
+      item.addEventListener('click', function(){ openLB(idx); });
+      grid.appendChild(item);
+    });
+    // 더보기 버튼
+    var moreBtn = document.getElementById('gallery-more-btn');
+    if(showCount >= photos.length){
+      if(moreBtn) moreBtn.style.display = 'none';
+    } else {
+      if(moreBtn) moreBtn.style.display = 'block';
+    }
+  }
+  renderGallery();
+
+  var moreBtn = document.getElementById('gallery-more-btn');
+  if(moreBtn){
+    moreBtn.addEventListener('click', function(){
+      showCount = photos.length;
+      renderGallery();
+    });
+  }
 
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lb-img');
