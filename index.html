@@ -40,7 +40,11 @@ html,body{width:100%;background:#000;}body{overflow-x:hidden;}
   transition:opacity 1.2s ease, filter 1.2s ease;
   pointer-events:none;
   z-index:0;
+  -webkit-appearance:none;
 }
+#intro-video::-webkit-media-controls{display:none!important;}
+#intro-video::-webkit-media-controls-enclosure{display:none!important;}
+#intro-video::-webkit-media-controls-panel{display:none!important;}
 
 /* ── 불꽃놀이 ── */
 #fireworks{
