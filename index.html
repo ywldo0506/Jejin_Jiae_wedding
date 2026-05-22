@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>이제진 ♥ 윤지애</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&family=Noto+Serif+KR:wght@300;400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 html,body{width:100%;background:#000;}body{overflow-x:hidden;}
 
 /* ── 전체 레이어 ── */
@@ -120,6 +121,7 @@ html,body{width:100%;background:#000;}body{overflow-x:hidden;}
 }
 .t-date{
   font-size:18px;letter-spacing:3px;
+  font-family:'Playfair Display',serif;
   color:rgba(212,180,131,0.8);
   display:block;margin-bottom:24px;
 }
@@ -512,6 +514,7 @@ section.visible{opacity:1;transform:translateY(0);}
 }
 .cal-month{
   font-size:17px;letter-spacing:4px;
+  font-family:'Playfair Display',serif;
   color:var(--gold2);text-align:center;
   margin-bottom:16px;text-transform:uppercase;
 }
@@ -524,7 +527,7 @@ section.visible{opacity:1;transform:translateY(0);}
   color:rgba(255,255,255,0.35);padding:4px 0;
 }
 .cal-d{
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Playfair Display',serif;
   font-size:15px;color:rgba(255,255,255,0.5);
   padding:5px 0;
 }
@@ -537,15 +540,18 @@ div.today{
   width:36px;height:36px;
 }
 div.today .today-num{
-  position:relative;z-index:2;
-  font-family:'Cormorant Garamond',serif;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  font-family:'Playfair Display',serif;
   font-size:15px;color:var(--navy);font-weight:700;
   line-height:1;
 }
 div.today::before{
   content:'♥';
   position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-52%);
+  transform:translate(-50%,-50%);
   font-size:36px;
   color:var(--gold);
   line-height:1;
@@ -554,6 +560,7 @@ div.today::before{
 .cer-info{text-align:center;position:relative;}
 .cer-datetime{
   font-size:18px;color:var(--white);
+  font-family:'Playfair Display',serif;
   letter-spacing:0.5px;margin-bottom:8px;
 }
 .cer-venue{
@@ -582,7 +589,8 @@ div.today::before{
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
 .dday-num{
-  font-size:28px;font-weight:300;
+  font-size:28px;font-weight:400;
+  font-family:'Playfair Display',serif;
   color:var(--white);display:block;
   line-height:1;margin-bottom:5px;
 }
@@ -766,6 +774,7 @@ div.today::before{
 }
 .acc-number{
   font-size:15px;color:var(--navy);
+  font-family:'Playfair Display',serif;
   letter-spacing:1.5px;margin-bottom:2px;
 }
 .acc-holder{font-size:12px;color:#999;font-weight:300;}
@@ -796,6 +805,7 @@ footer{
 }
 .ft-date{
   font-size:11px;letter-spacing:4px;
+  font-family:'Playfair Display',serif;
   color:var(--gold2);text-transform:uppercase;
   margin-bottom:20px;display:block;
 }
@@ -1577,15 +1587,7 @@ c0 -11 -76 -101 -104 -123 -14 -11 -41 -26 -60 -34 -59 -25 -45 3 42 89 49 48
         <span>2026.08.01 토요일 낮 12시</span>
       </div>
       <div class="rsvp-info-row">
-        <span class="rsvp-info-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8975A" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12 C12 12 10 8 7 8 C7 8 7 11 9.5 12 C7 11 7 14 7 14 C10 14 12 12 12 12Z"/>
-            <path d="M12 12 C12 12 14 8 17 8 C17 8 17 11 14.5 12 C17 11 17 14 17 14 C14 14 12 12 12 12Z"/>
-            <path d="M12 12 C12 12 8 10 8 7 C8 7 11 7 12 9.5 C11 7 14 7 16 7 C16 10 12 12 12 12Z"/>
-            <path d="M12 12 C12 12 8 14 8 17 C8 17 11 17 12 14.5 C11 17 14 17 16 17 C16 14 12 12 12 12Z"/>
-            <circle cx="12" cy="12" r="1.5" fill="#B8975A" stroke="none"/>
-          </svg>
-        </span>
+        <span class="rsvp-info-icon" style="font-size:14px;color:#B8975A;">ღ</span>
         <span>CREST 72 GLASS HALL</span>
       </div>
     </div>
