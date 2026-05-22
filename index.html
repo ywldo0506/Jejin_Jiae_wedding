@@ -30,19 +30,23 @@ html,body{width:100%;background:#000;}body{overflow-x:hidden;}
 @keyframes twinkle{from{opacity:0.2;}to{opacity:1;}}
 
 /* ── 성 실루엣 ── */
-#castle{
+#intro-video{
   position:absolute;
-  bottom:0;left:50%;
-  transform:translateX(-50%) translateY(100%);
-  width:min(500px,100vw);
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
   opacity:0;
-  transition:none;
+  transition:opacity 1.2s ease;
+  pointer-events:none;
+  z-index:0;
 }
 
 /* ── 불꽃놀이 ── */
 #fireworks{
   position:absolute;inset:0;
   pointer-events:none;
+  z-index:2;
 }
 
 /* ── 빛 번짐 (빛 폭발) ── */
@@ -51,6 +55,7 @@ html,body{width:100%;background:#000;}body{overflow-x:hidden;}
   background:radial-gradient(ellipse at 50% 40%, rgba(255,230,150,0.9) 0%, rgba(255,200,80,0.4) 30%, transparent 70%);
   opacity:0;
   pointer-events:none;
+  z-index:3;
 }
 
 /* ── 사진 레이어 ── */
@@ -908,35 +913,7 @@ footer{
   <canvas id="fireworks"></canvas>
   <div id="flash"></div>
 
-  <svg id="castle" viewBox="0 0 192 159" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
-  <g transform="translate(0.000000,159.000000) scale(0.100000,-0.100000)"
-fill="#1B2A4A" stroke="none">
-<path d="M1049 1488 c-1 -72 -4 -83 -45 -154 -21 -38 -40 -72 -42 -76 -2 -5 6
--8 17 -8 19 0 21 -6 21 -50 0 -38 -4 -50 -15 -50 -17 0 -21 -55 -5 -65 6 -3
-10 -37 10 -76 0 -68 0 -69 -26 -69 -25 0 -26 -2 -21 -41 3 -23 11 -45 17 -49
-6 -4 10 -20 8 -36 -3 -29 -4 -29 -36 20 -20 32 -32 62 -32 84 0 30 -3 34 -21
-29 -22 -6 -39 23 -54 91 -6 31 -6 32 28 32 49 0 53 11 10 27 -53 18 -53 18
--53 -24 -1 -21 -10 -63 -21 -93 -16 -45 -20 -78 -19 -182 l1 -128 -24 0 c-20
-0 -27 10 -46 65 -13 36 -27 89 -31 117 l-8 53 -1 -55 c-1 -30 -11 -80 -22
--110 -16 -44 -20 -77 -19 -163 l1 -107 -37 0 -37 0 6 68 c4 37 7 88 7 115 0
-37 3 47 17 47 13 0 10 7 -14 33 -42 43 -93 138 -93 170 0 24 4 27 34 27 43 0
-56 16 18 22 -15 3 -35 9 -44 13 -16 6 -18 1 -18 -44 0 -58 -14 -92 -71 -168
--22 -29 -35 -53 -29 -53 6 0 10 -29 10 -70 0 -42 4 -70 11 -70 6 0 9 -19 7
--47 l-3 -48 -63 -3 -62 -3 2 -172 3 -172 245 0 245 0 5 98 c5 96 6 99 38 128
-46 41 108 41 154 0 32 -29 33 -32 38 -128 l5 -98 223 -3 222 -2 0 240 0 240
--36 0 -36 0 7 63 c4 34 10 65 14 70 4 4 -8 37 -26 73 -18 37 -33 73 -33 80 0
-8 -4 14 -10 14 -5 0 -10 -6 -10 -14 0 -7 -15 -43 -33 -80 -18 -36 -30 -69 -26
--73 4 -5 10 -36 14 -70 l7 -63 -61 0 -61 0 0 129 c0 76 4 132 10 136 6 3 10
-24 10 46 0 32 -3 39 -20 39 -18 0 -20 7 -20 62 0 34 6 77 12 96 11 29 10 35
--5 47 -23 16 -25 105 -2 105 23 0 18 16 -26 91 -23 38 -39 75 -36 84 4 8 2 17
--3 20 -6 4 -10 13 -10 22 0 12 8 14 43 9 30 -5 48 -2 62 8 19 15 19 15 -5 16
--14 0 -36 7 -50 15 -46 26 -60 20 -61 -27z m31 -464 c0 -41 -2 -45 -22 -42
--40 5 -38 88 2 88 17 0 20 -6 20 -46z"/>
-<path d="M1310 950 c0 -16 7 -20 38 -20 20 0 44 5 52 10 12 8 9 10 -12 10 -15
-0 -30 5 -33 10 -12 19 -45 11 -45 -10z"/>
-</g>
-  <ellipse cx="96" cy="156" rx="90" ry="5" fill="rgba(184,151,90,0.18)"/>
-</svg>
+  <video id="intro-video" src="intro.mp4" muted playsinline preload="auto"></video>
 
   
 
@@ -1055,7 +1032,7 @@ function setAlpha(el,v){el.style.opacity=v;}
 function delay(ms){return new Promise(r=>setTimeout(r,ms));}
 
 async function runIntro(){
-  const castle=document.getElementById('castle');
+  const castle=document.getElementById('intro-video');
   const flash=document.getElementById('flash');
   const photoLayer=document.getElementById('photo-layer');
   const textLayer=document.getElementById('text-layer');
@@ -1064,11 +1041,11 @@ async function runIntro(){
   await delay(500);
   setAlpha(skipBtn,0.7);
 
-  // 1. 성 등장
-  await delay(800);
-  castle.style.transition='transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94), opacity 1.2s ease';
+  // 1. 영상 배경 페이드인
+  await delay(300);
+  castle.play().catch(function(){});
+  castle.style.transition='opacity 1.2s ease';
   castle.style.opacity='1';
-  castle.style.transform='translateX(-50%) translateY(0)';
 
   // 2. 불꽃 1차
   await delay(1400);
