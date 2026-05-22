@@ -913,7 +913,7 @@ footer{
   <canvas id="fireworks"></canvas>
   <div id="flash"></div>
 
-  <video id="intro-video" src="intro.mp4" muted playsinline preload="auto"></video>
+  <video id="intro-video" muted playsinline autoplay preload="auto" loop webkit-playsinline x5-playsinline><source src="intro.mp4" type="video/mp4"></video>
 
   
 
@@ -928,7 +928,7 @@ footer{
     <span class="t-main">Be Our Guest</span>
     <div class="t-divider"></div>
     <span class="t-names">이제진  ♥  윤지애</span>
-    <span class="t-date">2026.08.01 토요일 12시<br>CREAST 72 GLASS HALL</span>
+    <span class="t-date">2026.08.01 토요일 12시<br>CREST 72 GLASS HALL</span>
     <button class="t-btn" id="enter-btn" type="button">청첩장 보기</button>
   </div>
 </div>
@@ -1055,9 +1055,23 @@ async function runIntro(){
 
   // 1. 영상 배경 페이드인
   await delay(300);
-  castle.play().catch(function(){});
-  castle.style.transition='opacity 1.2s ease';
-  castle.style.opacity='1';
+  castle.muted = true;
+  castle.setAttribute('playsinline', '');
+  castle.setAttribute('webkit-playsinline', '');
+  var playPromise = castle.play();
+  if(playPromise !== undefined){
+    playPromise.then(function(){
+      castle.style.transition='opacity 1.2s ease';
+      castle.style.opacity='1';
+    }).catch(function(){
+      // 자동재생 실패시 바로 보이게만 처리
+      castle.style.transition='opacity 1.2s ease';
+      castle.style.opacity='1';
+    });
+  } else {
+    castle.style.transition='opacity 1.2s ease';
+    castle.style.opacity='1';
+  }
 
   // 2. 불꽃 1차
   await delay(1400);
@@ -1568,7 +1582,7 @@ c0 -11 -76 -101 -104 -123 -14 -11 -41 -26 -60 -34 -59 -25 -45 3 42 89 49 48
             <circle cx="12" cy="12" r="1.5" fill="#B8975A" stroke="none"/>
           </svg>
         </span>
-        <span>CREAST 72 GLASS HALL</span>
+        <span>CREST 72 GLASS HALL</span>
       </div>
     </div>
     <div class="rsvp-form">
@@ -1937,7 +1951,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
     </div>
     <div class="cer-info">
     <div class="cer-datetime">2026년 8월 1일 토요일 낮 12시</div>
-    <div class="cer-venue">CREAST 72 · GLASS HALL</div>
+    <div class="cer-venue">CREST 72 · GLASS HALL</div>
     <div class="cer-addr">서울특별시 중구 장충단로 72</div>
   </div>
 </section>
@@ -1995,7 +2009,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
       티맵 →
     </a>
   </div>
-  <div class="venue-name">CREAST 72 · GLASS HALL</div>
+  <div class="venue-name">CREST 72 · GLASS HALL</div>
   <div class="venue-addr">서울특별시 중구 장충단로 72</div>
   <div class="transport-list">
     <div class="transport-item">
@@ -2057,7 +2071,7 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
   <span class="ft-script">Jejin & Jiae</span>
   <span class="ft-date">2026 · August · 1st · Saturday</span>
   <div class="ft-div"></div>
-  <div class="ft-venue">CREAST 72 · GLASS HALL · SEOUL</div>
+  <div class="ft-venue">CREST 72 · GLASS HALL · SEOUL</div>
 </footer>
 
 
@@ -2071,12 +2085,11 @@ var skipDone = false;
 function skipIntro(){
   if(skipDone) return;
   skipDone = true;
-  var castle = document.getElementById('castle');
+  var castle = document.getElementById('intro-video');
   var photoLayer = document.getElementById('photo-layer');
   var textLayer = document.getElementById('text-layer');
   var skipBtn = document.getElementById('skip-btn');
   castle.style.transition = 'none';
-  castle.style.transform = 'translateX(-50%) translateY(0)';
   castle.style.opacity = '1';
   photoLayer.style.transition = 'opacity 0.6s';
   photoLayer.style.opacity = '1';
