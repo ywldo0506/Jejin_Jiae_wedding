@@ -2325,21 +2325,13 @@ document.querySelectorAll('section').forEach(function(s){ obs.observe(s); });
 
       // 1단계: 영상 블러 + 전체 페이드아웃 (1.4초)
       if(video){
-        video.style.transition = 'filter 1.4s ease, opacity 1.4s ease';
+        video.style.transition = 'filter 1s ease, opacity 1.4s ease';
         video.style.filter = 'blur(18px) brightness(1.3)';
       }
       scene.style.transition = 'opacity 1.4s ease';
       scene.style.opacity = '0';
       if(skipBtn){ skipBtn.style.transition='opacity 0.4s'; skipBtn.style.opacity='0'; }
 
-      // 음악 페이드아웃
-      var bgm = document.getElementById('bgm');
-      if(bgm){
-        var fadeOut = setInterval(function(){
-          if(bgm.volume > 0.05){ bgm.volume = Math.max(0, bgm.volume - 0.05); }
-          else { bgm.pause(); bgm.volume = 0; clearInterval(fadeOut); }
-        }, 80);
-      }
       setTimeout(function(){
         scene.style.display = 'none';
         document.documentElement.style.overflow = 'auto';
