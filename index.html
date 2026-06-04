@@ -1069,19 +1069,26 @@ async function runIntro(){
   castle.muted = true;
   castle.setAttribute('playsinline', '');
   castle.setAttribute('webkit-playsinline', '');
-  var playPromise = castle.play();
-  if(playPromise !== undefined){
-    playPromise.then(function(){
-      castle.style.transition='opacity 1.2s ease';
-      castle.style.opacity='1';
-    }).catch(function(){
-      castle.style.transition='opacity 1.2s ease';
-      castle.style.opacity='1';
-    });
-  } else {
-    castle.style.transition='opacity 1.2s ease';
-    castle.style.opacity='1';
-  }
+  // 영상 로드 성공 시 페이드인, 실패 시 별 배경 유지
+  castle.load();
+  castle.addEventListener('canplay', function onCanPlay(){
+    castle.removeEventListener('canplay', onCanPlay);
+    var playPromise = castle.play();
+    if(playPromise !== undefined){
+      playPromise.then(function(){
+        castle.style.transition='opacity 1.2s ease';
+        castle.style.opacity='1';
+      }).catch(function(){
+        // 아이폰 자동재생 실패 - 별 배경만 보여줌
+      });
+    }
+  });
+  // 3초 안에 로드 안되면 그냥 진행
+  setTimeout(function(){
+    if(parseFloat(castle.style.opacity||0) < 0.5){
+      // 영상 없이 별 배경으로 진행
+    }
+  }, 3000);
   // 배경음악 재생
   var bgm = document.getElementById('bgm');
   if(bgm){
@@ -2059,10 +2066,24 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
         <span class="acc-arrow">▼</span>
       </div>
       <div class="acc-body">
-        <div class="acc-bank">카카오뱅크</div>
-        <div class="acc-number">3333-06-7395175</div>
-        <div class="acc-holder">이제진</div>
-        <button class="acc-copy" onclick="copyAcc('3333-06-7395175')">복사하기</button>
+        <div style="margin-bottom:18px;">
+          <div class="acc-bank">카카오뱅크</div>
+          <div class="acc-number">3333-06-7395175</div>
+          <div class="acc-holder">이제진</div>
+          <button class="acc-copy" onclick="copyAcc('3333-06-7395175')">복사하기</button>
+        </div>
+        <div style="border-top:0.5px solid #E8DFC8;padding-top:16px;margin-bottom:18px;">
+          <div class="acc-bank">국민은행</div>
+          <div class="acc-number">00731-04-045991</div>
+          <div class="acc-holder">이용우</div>
+          <button class="acc-copy" onclick="copyAcc('00731-04-045991')">복사하기</button>
+        </div>
+        <div style="border-top:0.5px solid #E8DFC8;padding-top:16px;">
+          <div class="acc-bank">기업은행</div>
+          <div class="acc-number">013-030837-02-014</div>
+          <div class="acc-holder">김영미</div>
+          <button class="acc-copy" onclick="copyAcc('013-030837-02-014')">복사하기</button>
+        </div>
       </div>
     </div>
     <div class="acc-item" id="accB">
@@ -2071,10 +2092,18 @@ c15 2 46 -6 70 -18 24 -11 36 -19 28 -17 -8 3 -24 1 -35 -4 -17 -6 -15 -8 11
         <span class="acc-arrow">▼</span>
       </div>
       <div class="acc-body">
-        <div class="acc-bank">카카오뱅크</div>
-        <div class="acc-number">3333-01-5069040</div>
-        <div class="acc-holder">윤지애</div>
-        <button class="acc-copy" onclick="copyAcc('3333-01-5069040')">복사하기</button>
+        <div style="margin-bottom:18px;">
+          <div class="acc-bank">카카오뱅크</div>
+          <div class="acc-number">3333-01-5069040</div>
+          <div class="acc-holder">윤지애</div>
+          <button class="acc-copy" onclick="copyAcc('3333-01-5069040')">복사하기</button>
+        </div>
+        <div style="border-top:0.5px solid #E8DFC8;padding-top:16px;">
+          <div class="acc-bank">국민은행</div>
+          <div class="acc-number">220601-04-192461</div>
+          <div class="acc-holder">강경화</div>
+          <button class="acc-copy" onclick="copyAcc('220601-04-192461')">복사하기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2196,7 +2225,7 @@ function submitRSVP(){
 
 // 갤러리
 (function(){
-  var nums = [4,5,6,1,7,8,3,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
+  var nums = [1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
   var photos = nums.map(function(n){ return String(n).padStart(2,'0') + '.jpg'; });
   var grid = document.getElementById('galleryGrid');
   var showCount = 6;
@@ -2325,12 +2354,13 @@ document.querySelectorAll('section').forEach(function(s){ obs.observe(s); });
 
       // 1단계: 영상 블러 + 전체 페이드아웃 (1.4초)
       if(video){
-        video.style.transition = 'filter 1s ease, opacity 1.4s ease';
+        video.style.transition = 'filter 1.4s ease, opacity 1.4s ease';
         video.style.filter = 'blur(18px) brightness(1.3)';
       }
       scene.style.transition = 'opacity 1.4s ease';
       scene.style.opacity = '0';
       if(skipBtn){ skipBtn.style.transition='opacity 0.4s'; skipBtn.style.opacity='0'; }
+
 
       setTimeout(function(){
         scene.style.display = 'none';
